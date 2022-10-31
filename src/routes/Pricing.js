@@ -1,18 +1,20 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import PricingCards from '../components/Pricing'
-import HeroImage from '../components/HeroImage'
+import Justhouse from "../components/Justhouse";
+
 
 const Pricing = () => {
     return (
         <div>
             <Navbar />
-            <HeroImage heading='PRICING.' text='Choose your trip.' />
-            <PricingCards />
-            <Footer />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <Justhouse />
         </div>
     )
 }
-
 export default Pricing

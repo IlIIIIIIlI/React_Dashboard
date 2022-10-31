@@ -3,15 +3,15 @@ import Chart from "react-apexcharts";
 import React, { Component } from "react";
 
 // remember to export the component, or it cannot be called.
-export default class YearStruct extends Component {
+export default class UnitPrice extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             options: {
-                colors: ["#fff", "#1976d2", "#0d47a1"],
+                colors: ["#06bee1", "#1768ac", "#2541b2", "#FFF"],
                 chart: {
-                    id: "line-chart",
+                    id: "basic-bar",
                     title: {
                         align: 'center',
                         margin: 10,
@@ -20,15 +20,12 @@ export default class YearStruct extends Component {
                         floating: false,
                         style: {
                             fontSize: '14px',
-                            fontWeight: 'bold',
+                            // fontWeight: 'bold',
                             fontFamily: undefined,
                             color: '#263238'
                         },
                     }
                 },
-                // xaxis: {
-                //     categories: [],
-                // },
                 legend: {
                     markers: {
                         width: 12,
@@ -61,9 +58,6 @@ export default class YearStruct extends Component {
                     },
                 },
                 yaxis: {
-                    min: 1924,
-                    floating: false,
-                    decimalsInFloat: undefined,
                     labels: {
                         show: true,
                         minWidth: 0,
@@ -77,33 +71,38 @@ export default class YearStruct extends Component {
                         offsetY: 0,
                         rotate: 0,
                     }
-                },
+                }
             },
             series: [
                 {
-                    name: "建造年份平均值",
+                    name: "均价平均值",
+                    type: 'column',
+                    data: [],
+                },
+                {
+                    name: "均价最大值",
+                    type: 'column',
+                    data: [],
+                },
+                {
+                    name: "均价最小值",
+                    type: 'column',
+                    data: [],
+                },
+                {
+                    name: "均价标准差",
                     type: 'line',
                     data: [],
                 },
-                {
-                    name: "建造年份最大值",
-                    type: 'column',
-                    data: [],
-                },
-                {
-                    name: "建造年份最小值",
-                    type: 'column',
-                    data: [],
-                },
             ],
-
         }
     }
     async componentDidMount() {
         const normal_cat = [];
-        const year_struct_mean = [];
-        const year_struct_max = [];
-        const year_struct_min = [];
+        const unit_price_mean = [];
+        const unit_price_max = [];
+        const unit_price_min = [];
+        const unit_price_std = [];
         await axios.get("https://backendapicall.click:8000/api/house")
             .then(Response => {
                 console.log(Response.data);
@@ -113,9 +112,11 @@ export default class YearStruct extends Component {
                     // species is always the district
                     if (obj.house_detail.cond === "normal") {
                         normal_cat.push(obj.house_detail.district);
-                        year_struct_mean.push(Math.round(obj.house_detail.year_struct_mean));
-                        year_struct_max.push(Math.round(obj.house_detail.year_struct_max));
-                        year_struct_min.push(Math.round(obj.house_detail.year_struct_min));
+                        unit_price_mean.push(Math.round(obj.house_detail.unit_price_mean));
+                        unit_price_max.push(Math.round(obj.house_detail.unit_price_max));
+                        unit_price_min.push(Math.round(obj.house_detail.unit_price_min));
+                        unit_price_std.push(Math.round(obj.house_detail.unit_price_std));
+
                     } else {
                         // year_struct_mean.push(0);
                         // year_struct_max.push(0);
@@ -124,7 +125,7 @@ export default class YearStruct extends Component {
                 }
                 // try to sort the array, from small to big
                 const
-                    arrays = [year_struct_mean, year_struct_max, year_struct_min, normal_cat],
+                    arrays = [unit_price_std, unit_price_mean, unit_price_max, unit_price_min, normal_cat],
                     sorted = arrays.map(
                         (indices => a => indices.map(i => a[i]))
                             ([...arrays[0].keys()].sort((a, b) => arrays[0][a] - arrays[0][b]))
@@ -134,25 +135,27 @@ export default class YearStruct extends Component {
                 //  sorted[4] is the sorted district
                 var District_dic = { 'pudong': '浦东', 'minhang': '闵行', 'baoshan': '宝山', 'xuhui': '徐汇', 'putuo': '普陀', 'chongming': '崇明', 'jinshan': '金山', 'fengxian': '奉贤', 'qingpu': '青浦', 'hongkou': '虹口', 'jingan': '静安', 'huangpu': '黄浦', 'jiading': '嘉定', 'songjiang': '松江', 'changning': '长宁', 'yangpu': '杨浦' };
                 var py_ds = [];
-                console.log(sorted[3]);
-                for (var cats in sorted[3]) {
+                console.log(sorted[4]);
+                for (var cats in sorted[4]) {
                     // append new value to the array
-                    py_ds.push(District_dic[sorted[3][cats]]);
+                    py_ds.push(District_dic[sorted[4][cats]]);
                 }
-
 
                 this.setState({
                     options: {
                         xaxis: {
                             categories: py_ds,
                         },
+                        // yaxis: {
+                        //     min: 5000,
+                        // }
                         chart: {
                             height: 350,
                             type: 'line',
                         },
                         dataLabels: {
                             enabled: true,
-                            enabledOnSeries: [0],
+                            enabledOnSeries: [3],
                             style: {
                                 fontSize: '14px',
                                 fontFamily: 'Helvetica, Arial, sans-serif',
@@ -161,27 +164,27 @@ export default class YearStruct extends Component {
                             },
                         },
                         stroke: {
-                            width: [2, 1, 1]
+                            width: [1, 1, 1, 1]
                         },
                     },
                     series: [
                         {
-                            name: "建造年份平均值",
-                            type: 'line',
-                            data: sorted[0],
-                        },
-                        {
-                            name: "建造年份最大值",
-                            type: 'column',
+                            name: "均价平均值",
                             data: sorted[1],
                         },
                         {
-                            name: "建造年份最小值",
-                            type: 'column',
+                            name: "均价最大值",
                             data: sorted[2],
                         },
+                        {
+                            name: "均价最小值",
+                            data: sorted[3],
+                        },
+                        {
+                            name: "均价标准差",
+                            data: sorted[0],
+                        },
                     ],
-
 
                     // catch the errors
                 })
@@ -192,12 +195,8 @@ export default class YearStruct extends Component {
         return (
             <>
                 <article>
-                    <h1>房屋建立年份</h1>
-                    <p> 此图记录了目前挂载的上海各区二手房的建造年份信息 （2022年10月3日更新）
-                        <script>
-                            date = new Date().toLocaleDateString();
-                            document.write(date);
-                        </script>
+                    <h1>房屋均价</h1>
+                    <p> 此图记录了目前挂载的上海各区二手房的均价信息 （2022年10月3日更新）
                     </p>
                     <Chart options={this.state.options} series={this.state.series} type="bar" width={600} align="center" />
                 </article>

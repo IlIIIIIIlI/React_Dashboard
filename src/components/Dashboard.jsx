@@ -4,7 +4,6 @@ import Analytics from "./Analytics";
 import Earnings from "./Earnings";
 import FAQ from "./FAQ";
 import Profile from "./Profile";
-import Transfers from "./Transfers";
 import scrollreveal from "scrollreveal";
 import YearStruct from './YearStruct';
 
