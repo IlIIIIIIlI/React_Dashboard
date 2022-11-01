@@ -38,7 +38,7 @@ export default function Justhouse() {
       <div className="grid">
         <div className="row__zero">
           <h1>站上数据</h1>
-          <p> 此图记录了站上总计二手房数据 （2022年10月3日更新）</p>
+          <p> 此图记录了站上总计二手房数据 （2022年11月1日更新）</p>
           <Records />
         </div>
         <div className="row__one">
@@ -50,8 +50,6 @@ export default function Justhouse() {
           <PostTime />
         </div>
         <div className="row__two">
-          {/* <Earnings />
-          <Profile /> */}
           <Interesting />
           <NotInteresting />
         </div>

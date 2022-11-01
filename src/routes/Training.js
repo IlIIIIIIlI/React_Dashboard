@@ -12,7 +12,8 @@ const Training = () => {
             <br />
             <br />
             <br />
-            <Dashboard />
+            <h1>仍在开发，敬请期待</h1>
+            {/* <Dashboard /> */}
         </div>
     )
 }

@@ -266,7 +266,7 @@ export default class Interesting extends Component {
             <>
                 <article>
                     <h1>😈 关注热度高截面图</h1>
-                    <p> 此图记录了发布天数大于平均天数且关注人数大于平均人数的房屋特征值 （2022年10月3日更新）
+                    <p> 此图记录了发布天数大于平均天数且关注人数大于平均人数的房屋特征值 （2022年11月1日更新）
                     </p>
                     <Chart options={this.state.options} series={this.state.series} type="radar" width={800} align="center" />
                 </article>

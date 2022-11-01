@@ -2,7 +2,6 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Justhouse from "../components/Justhouse";
 
-
 const Pricing = () => {
     return (
         <div>
